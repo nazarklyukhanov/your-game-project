@@ -1,21 +1,15 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { axiosInstance, setAccessToken } from '../../shared/lib/axiosInstance';
+import { useAppDispatch } from '../../shared/hooks/reduxHooks';
+import { signOutThunk } from '../../entities/user/api/AuthApi';
 
-export default function SignOutPage({ setUser }) {
+export default function SignOutPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      try {
-        await axiosInstance.delete('/auth/signOut');
-        setUser(null);
-        setAccessToken('');
-        
-        navigate('/signIn');
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [setUser, navigate]);
+    dispatch(signOutThunk()).then(() => {
+      navigate('/signIn');
+    });
+  }, [dispatch, navigate]);
 }

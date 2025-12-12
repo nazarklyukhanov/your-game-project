@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { axiosInstance, setAccessToken } from '../../shared/lib/axiosInstance';
+import { useAppDispatch } from '../../shared/hooks/reduxHooks';
+import { signUpThunk } from '../../entities/user/api/AuthApi';
 
-export default function SignUpForm({ setUser }) {
+export default function SignUpForm() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [inputs, setInputs] = useState({});
+  const [error, setError] = useState('');
 
   function onChangeHandler(event) {
     return setInputs((prevState) => ({
@@ -17,14 +20,17 @@ export default function SignUpForm({ setUser }) {
   async function signUpHandler(event) {
     try {
       event.preventDefault();
+      setError('');
 
-      const response = await axiosInstance.post('./auth/signUp', inputs);
+      const result = await dispatch(signUpThunk(inputs));
 
-      setUser(response.data.data.user);
-      setAccessToken(response.data.data.accessToken);
-
-      navigate('/');
+      if (signUpThunk.fulfilled.match(result)) {
+        navigate('/');
+      } else {
+        setError(result.payload || 'Registration failed');
+      }
     } catch (error) {
+      setError('An error occurred');
       console.log(error);
     }
   }
@@ -67,6 +73,10 @@ export default function SignUpForm({ setUser }) {
             className="px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-indigo-600 outline-none shadow-sm"
             onChange={onChangeHandler}
           />
+
+          {error && (
+            <div className="text-red-600 text-sm text-center">{error}</div>
+          )}
 
           <button
             type="submit"
