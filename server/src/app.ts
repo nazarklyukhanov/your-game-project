@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import express, { Express } from 'express';
@@ -8,8 +7,6 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import errorHandler from './middleware/error.handler.middleware';
 import router from './routes/main.routes';
-
-dotenv.config();
 
 const app: Express = express();
 

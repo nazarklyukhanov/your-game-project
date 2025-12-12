@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "dist/server.js",
 	"scripts": {
-		"start": "node ./src/server.js",
-		"dev": "node --watch ./src/server.js",
+		"start": "node ./src/server.ts",
+		"dev": "ts-node-dev --respawn --transpile-only src/server.ts",
 		"db:create": "npx sequelize db:create",
 		"db:migrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate",
 		"db:seed": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all"
