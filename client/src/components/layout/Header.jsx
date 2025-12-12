@@ -7,7 +7,7 @@ export default function Header({ user }) {
     <header className="backdrop-blur-xl bg-white/60 border-b border-gray-300 shadow-sm">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* LEFT — LOGO */}
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/game" className="flex items-center gap-2">
           <img src={logo} alt="logo" className="h-10 w-auto hover:scale-110 transition" />
         </Link>
 
