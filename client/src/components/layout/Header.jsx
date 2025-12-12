@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
+import { useAppSelector } from '../../shared/hooks/reduxHooks';
 import logo from '../../assets/skeleton.png';
 
-export default function Header({ user }) {
+export default function Header() {
+  const user = useAppSelector((state) => state.user.user);
   return (
     <header className="backdrop-blur-xl bg-white/60 border-b border-gray-300 shadow-sm">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
