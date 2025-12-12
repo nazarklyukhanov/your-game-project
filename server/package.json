@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node ./src/server.js",
 		"dev": "node --watch ./src/server.js",
-		"db:create": "bash ./scripts/create-db.sh",
+		"db:create": "npx sequelize db:create",
 		"db:migrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate",
 		"db:seed": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all"
 	},
