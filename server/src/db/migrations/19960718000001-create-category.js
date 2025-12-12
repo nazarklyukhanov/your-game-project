@@ -1,6 +1,6 @@
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Tasks', {
+		await queryInterface.createTable('Categories', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -11,23 +11,9 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.STRING,
 			},
-			status: {
+			description: {
 				allowNull: false,
 				type: Sequelize.STRING,
-			},
-			deadline: {
-				allowNull: false,
-				type: Sequelize.STRING,
-			},
-			user_id: {
-				allowNull: false,
-				type: Sequelize.INTEGER,
-				reference: {
-					model: 'Users',
-					key: 'id',
-				},
-				onUpdate: 'CASCADE',
-				onDelete: 'CASCADE',
 			},
 			createdAt: {
 				allowNull: false,
@@ -42,6 +28,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface) {
-		await queryInterface.dropTable('Tasks');
+		await queryInterface.dropTable('Categories');
 	},
 };

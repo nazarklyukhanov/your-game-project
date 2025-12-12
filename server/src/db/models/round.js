@@ -1,22 +1,22 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-	class Task extends Model {
+	class Round extends Model {
 		static associate(models) {
 			this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
 		}
 	}
-	Task.init(
+	Round.init(
 		{
-			title: DataTypes.STRING,
-			status: DataTypes.STRING,
-			deadline: DataTypes.STRING,
+			score: DataTypes.INTEGER,
+			status: DataTypes.BOOLEAN,
+			question_id: DataTypes.INTEGER,
 			user_id: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
-			modelName: 'Task',
+			modelName: 'Round',
 		},
 	);
-	return Task;
+	return Round;
 };
