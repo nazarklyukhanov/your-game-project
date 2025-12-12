@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	access: {
 		expiresIn: 1000 * 60 * 3,
 	},
@@ -6,3 +6,4 @@ module.exports = {
 		expiresIn: 1000 * 60 * 60 * 24,
 	},
 };
+

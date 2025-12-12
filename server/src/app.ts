@@ -1,21 +1,17 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import express, { Express } from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import errorHandler from './middleware/error.handler.middleware';
+import router from './routes/main.routes';
 
-// Node.js libraries
-const fs = require('fs');
-const path = require('path');
+dotenv.config();
 
-// Third-party dependencies
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-
-// Local files
-const errorHandler = require('./middleware/error.handler.middleware');
-const router = require('./routes/main.routes');
-
-const app = express();
+const app: Express = express();
 
 // Logs
 if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
@@ -29,8 +25,8 @@ const accessLogStream = fs.createWriteStream(
 app.use(morgan('combined', { stream: accessLogStream }));
 
 // CORS
-const corsOptions = {
-	origin: [process.env.CLIENT_URL],
+const corsOptions: cors.CorsOptions = {
+	origin: [process.env.CLIENT_URL as string],
 	credentials: true,
 };
 app.use(cors(corsOptions));
@@ -53,4 +49,5 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // LAST
 app.use(errorHandler);
 
-module.exports = app;
+export default app;
+

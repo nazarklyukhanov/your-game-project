@@ -1,20 +1,26 @@
-const { Model } = require('sequelize');
-const bcrypt = require('bcrypt');
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import bcrypt from 'bcrypt';
+import { UserAttributes, UserCreationAttributes, UserInstance } from '../../types';
 
-module.exports = (sequelize, DataTypes) => {
-	class User extends Model {
-		static associate(models) {
-			this.hasMany(models.Task, { foreignKey: 'user_id', as: 'rounds' });
+export default (sequelize: Sequelize): typeof Model<UserAttributes, UserCreationAttributes> => {
+	class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+		declare id: number;
+		declare name: string;
+		declare email: string;
+		declare password: string;
+		declare readonly createdAt: Date;
+		declare readonly updatedAt: Date;
+
+		static associate(models: any): void {
+			this.hasMany(models.Round, { foreignKey: 'user_id', as: 'rounds' });
 		}
 
-		// Email validation
-		static validateEmail(email) {
+		static validateEmail(email: string): boolean {
 			const emailPattern = /^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}$/;
 			return emailPattern.test(email);
 		}
 
-		// Password validation
-		static validatePassword(password) {
+		static validatePassword(password: string): boolean {
 			const hasUpperCase = /[A-Z]/;
 			const hasLowerCase = /[a-z]/;
 			const hasNumbers = /\d/;
@@ -34,8 +40,7 @@ module.exports = (sequelize, DataTypes) => {
 			return true;
 		}
 
-		// Data validation during registration
-		static validateSignUpData({ name, email, password }) {
+		static validateSignUpData({ name, email, password }: { name: string; email: string; password: string }): { isValid: boolean; error: string | null } {
 			if (!name || typeof name !== 'string' || name.trim().length === 0) {
 				return {
 					isValid: false,
@@ -74,8 +79,7 @@ module.exports = (sequelize, DataTypes) => {
 			};
 		}
 
-		// Data validation during authorization
-		static validateSignInData({ email, password }) {
+		static validateSignInData({ email, password }: { email: string; password: string }): { isValid: boolean; error: string | null } {
 			if (!email || typeof email !== 'string' || email.trim().length === 0) {
 				return {
 					isValid: false,
@@ -96,28 +100,41 @@ module.exports = (sequelize, DataTypes) => {
 			};
 		}
 	}
+
 	User.init(
 		{
-			name: DataTypes.STRING,
-			email: DataTypes.STRING,
-			password: DataTypes.STRING,
+			id: {
+				type: DataTypes.INTEGER,
+				autoIncrement: true,
+				primaryKey: true,
+			},
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			email: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			password: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 		},
 		{
 			sequelize,
 			hooks: {
-				beforeCreate: async (user) => {
+				beforeCreate: async (user: User) => {
 					user.name = user.name.trim();
 					user.email = user.email.trim().toLowerCase();
 					user.password = await bcrypt.hash(user.password, 10);
-				},
-				afterCreate: (user) => {
-					const rawUser = user.get();
-					delete rawUser.password;
-					return rawUser;
 				},
 			},
 			modelName: 'User',
 		},
 	);
+
 	return User;
 };
+

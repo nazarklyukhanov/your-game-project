@@ -2,12 +2,11 @@
 	"name": "server",
 	"version": "1.0.0",
 	"description": "",
-	"main": "server.js",
+	"main": "dist/server.js",
 	"scripts": {
 		"start": "node ./src/server.js",
 		"dev": "node --watch ./src/server.js",
-		"db:drop": "npx sequelize db:drop",
-		"db:create": "npx sequelize db:create",
+		"db:create": "bash ./scripts/create-db.sh",
 		"db:migrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate",
 		"db:seed": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all"
 	},
@@ -30,9 +29,20 @@
 		"sequelize-cli": "^6.6.3"
 	},
 	"devDependencies": {
+		"@types/bcrypt": "^6.0.0",
+		"@types/cookie-parser": "^1.4.10",
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.6",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@types/morgan": "^1.9.10",
+		"@types/node": "^25.0.1",
 		"eslint": "^9.39.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.4",
-		"prettier": "^3.7.3"
+		"nodemon": "^3.1.11",
+		"prettier": "^3.7.3",
+		"ts-node": "^10.9.2",
+		"ts-node-dev": "^2.0.0",
+		"typescript": "^5.9.3"
 	}
 }

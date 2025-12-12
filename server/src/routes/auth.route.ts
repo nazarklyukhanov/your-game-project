@@ -1,6 +1,7 @@
-const router = require('express').Router();
+import { Router } from 'express';
+import AuthController from '../controllers/auth.controller';
 
-const AuthController = require('../controllers/auth.controller');
+const router = Router();
 
 router
 	.get('/', AuthController.refreshTokens)
@@ -8,4 +9,5 @@ router
 	.post('/signIn', AuthController.signIn)
 	.delete('/signOut', AuthController.signOut);
 
-module.exports = router;
+export default router;
+
