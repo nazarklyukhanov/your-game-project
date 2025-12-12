@@ -18,18 +18,8 @@ interface UpdateQuestionData {
 }
 
 class QuestionService {
-	static async getAllQuestions(categoryId: number | null = null) {
-		const where = categoryId ? { category_id: categoryId } : {};
-		const questions = await Question.findAll({
-			where,
-			include: [
-				{
-					model: Category,
-					as: 'category',
-				},
-			],
-			order: [['points', 'ASC'], ['createdAt', 'ASC']],
-		});
+	static async getAllQuestions() {
+		const questions = await Question.findAll();
 		return questions;
 	}
 
@@ -68,7 +58,10 @@ class QuestionService {
 		return await this.getQuestionById(createdQuestion.id);
 	}
 
-	static async updateQuestion(id: number, { question, answer, points, category_id }: UpdateQuestionData) {
+	static async updateQuestion(
+		id: number,
+		{ question, answer, points, category_id }: UpdateQuestionData,
+	) {
 		const existingQuestion = await Question.findByPk(id);
 		if (!existingQuestion) {
 			throw formatError('Question not found', 404);
@@ -102,4 +95,3 @@ class QuestionService {
 }
 
 export default QuestionService;
-

@@ -5,8 +5,7 @@ import formatResponse from '../utils/response.format.util';
 class QuestionController {
 	static async getAllQuestions(req: Request, res: Response, next: NextFunction): Promise<void> {
 		try {
-			const categoryId = req.query.categoryId ? parseInt(req.query.categoryId as string, 10) : null;
-			const questions = await QuestionService.getAllQuestions(categoryId);
+			const questions = await QuestionService.getAllQuestions();
 			res.status(200).json(formatResponse(200, 'All questions retrieved', questions));
 		} catch (error) {
 			next(error);

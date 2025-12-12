@@ -4,6 +4,7 @@ import { axiosInstance, setAccessToken } from '../shared/lib/axiosInstance';
 
 import Header from '../components/layout/Header';
 import HomePage from '../pages/HomePage/HomePage';
+import GamePage from '../pages/GamePage/GamePage';
 import Footer from '../components/layout/Footer';
 
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
@@ -33,6 +34,8 @@ export default function App() {
       <main className="flex-1 flex">
         <Routes>
           <Route path="/" element={<HomePage setUser={setUser} />} />
+
+          <Route path="/game" element={<GamePage setUser={setUser} />} />
 
           <Route path="/signUp" element={<SignUpPage setUser={setUser} />} />
           <Route path="/signIn" element={<SignInPage setUser={setUser} />} />
